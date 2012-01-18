@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <script type="text/javascript" src="script/markdown.js"></script>
+    </head>
+
+    <script type="text/javascript">
+        safari.application.addEventListener("command",  commandHandler,  true);
+        safari.application.addEventListener("validate", validateHandler, true);
+        safari.application.addEventListener("message",  messageHandler,  true);
+        
+        var markdownLinksMenuItem = null;
+        
+        function commandHandler(event) {
+            if (event.target.identifier == 'define-markdown-links') {
+                safari.application.activeBrowserWindow.activeTab.page.dispatchMessage('defineLinksGetPost', null);
+            }
+        }
+        
+        function messageHandler(event) {
+            if (event.name == 'defineLinksForPost') {
+                var postWithDefinedLinks = defineLinks(event.message);
+                safari.application.activeBrowserWindow.activeTab.page.dispatchMessage('updatePostWithDefinedLinks', postWithDefinedLinks);
+            }
+            else if (event.name == 'pageUsesMarkdown') {
+                if (markdownLinksMenuItem != null) {
+                    markdownLinksMenuItem.disabled = !event.message;
+                    markdownLinksMenuItem = null;
+                }
+            }
+        }
+        
+        function validateHandler(event) {
+            if (event.target.identifier !== 'define-markdown-links') {
+                markdownLinksMenuItem = event.target;
+                safari.application.activeBrowserWindow.activeTab.page.dispatchMessage('checkIfPageUsesMarkdown', null);
+            }
+        }
+    </script>
+</html>

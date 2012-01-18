@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Author</key>
+	<string>Abbey Code</string>
+	<key>Builder Version</key>
+	<string>7534.52.7</string>
+	<key>CFBundleDisplayName</key>
+	<string>Tumblr+</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.abbey-code.tumblrplus</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>Chrome</key>
+	<dict>
+		<key>Database Quota</key>
+		<real>1048576</real>
+		<key>Global Page</key>
+		<string>tumblr-plus.html</string>
+		<key>Menus</key>
+		<array>
+			<dict>
+				<key>Identifier</key>
+				<string>main-menu</string>
+				<key>Menu Items</key>
+				<array>
+					<dict>
+						<key>Identifier</key>
+						<string>define-markdown-links</string>
+						<key>Title</key>
+						<string>Define Markdown Links</string>
+					</dict>
+				</array>
+			</dict>
+		</array>
+		<key>Toolbar Items</key>
+		<array>
+			<dict>
+				<key>Identifier</key>
+				<string>toolbar-button</string>
+				<key>Image</key>
+				<string>Button.png</string>
+				<key>Label</key>
+				<string>Tumblr+</string>
+				<key>Menu</key>
+				<string>main-menu</string>
+				<key>Palette Label</key>
+				<string>Tumblr+</string>
+				<key>Tool Tip</key>
+				<string>Tumblr+</string>
+			</dict>
+		</array>
+	</dict>
+	<key>Content</key>
+	<dict>
+		<key>Scripts</key>
+		<dict>
+			<key>End</key>
+			<array>
+				<string>script/markdown-injected.js</string>
+			</array>
+		</dict>
+	</dict>
+	<key>Description</key>
+	<string>Allows you to create and use templates for Tumblr posts</string>
+	<key>ExtensionInfoDictionaryVersion</key>
+	<string>1.0</string>
+	<key>Permissions</key>
+	<dict>
+		<key>Website Access</key>
+		<dict>
+			<key>Allowed Domains</key>
+			<array>
+				<string>www.tumblr.com</string>
+			</array>
+			<key>Include Secure Pages</key>
+			<true/>
+			<key>Level</key>
+			<string>Some</string>
+		</dict>
+	</dict>
+	<key>Website</key>
+	<string>http://www.abbey-code.com</string>
+</dict>
+</plist>
