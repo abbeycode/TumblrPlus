@@ -8,9 +8,14 @@
         safari.application.addEventListener("command",  commandHandler,  true);
         safari.application.addEventListener("validate", validateHandler, true);
         safari.application.addEventListener("message",  messageHandler,  true);
-        
-        var markdownLinksMenuItem = null;
-        
+
+        safari.application.addEventListener("activate", navigationHandler, true);
+        safari.application.addEventListener("navigate", navigationHandler, true);
+
+        // I know, globals are bad. I couldn't figure out a different way to handle this
+        // that actually worked, though
+        var usesMarkdown = false;
+
         function commandHandler(event) {
             if (event.target.identifier == 'define-markdown-links') {
                 safari.application.activeBrowserWindow.activeTab.page.dispatchMessage('defineLinksGetPost', null);
@@ -23,17 +28,29 @@
                 safari.application.activeBrowserWindow.activeTab.page.dispatchMessage('updatePostWithDefinedLinks', postWithDefinedLinks);
             }
             else if (event.name == 'pageUsesMarkdown') {
-                if (markdownLinksMenuItem != null) {
-                    markdownLinksMenuItem.disabled = !event.message;
-                    markdownLinksMenuItem = null;
-                }
+                usesMarkdown = event.message;
+            }
+        }
+        
+        function navigationHandler(event) {
+            var page = safari.application.activeBrowserWindow.activeTab.page;
+            if (page) {
+                page.dispatchMessage('checkIfPageUsesMarkdown', null);
             }
         }
         
         function validateHandler(event) {
-            if (event.target.identifier !== 'define-markdown-links') {
-                markdownLinksMenuItem = event.target;
-                safari.application.activeBrowserWindow.activeTab.page.dispatchMessage('checkIfPageUsesMarkdown', null);
+            if (event.target.identifier == 'toolbar-button') {
+                event.target.disabled = !safari.application.activeBrowserWindow.activeTab.page;
+            }
+            
+            // Disable no matter what if the site isn't available (page is outside Tumblr)
+            if (!safari.application.activeBrowserWindow.activeTab.page) {
+                return;
+            }
+
+            if (event.target.identifier == 'define-markdown-links') {
+                event.target.disabled = !usesMarkdown;
             }
         }
     </script>
