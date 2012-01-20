@@ -16,6 +16,12 @@ function testLinkCollection() {
                   '\n' +
                   '[link2]:');
     
+    input.push   ('These are [two][link] links to the [same][link] thing');
+    expected.push('These are [two][link] links to the [same][link] thing\n' +
+                  '\n' +
+                  '\n' +
+                  '[link]:');
+    
     input.push   ('No links here');
     expected.push('No links here');
     
@@ -34,20 +40,20 @@ function testLinkCollection() {
                   '\n' +
                   '[link2]:');
     
-    input.push   ('This is a [link1][link2]\n' +
+    input.push   ('This is a defined [link1][link2]\n' +
                   '[link2]:');
-    expected.push('This is a [link1][link2]\n' +
+    expected.push('This is a defined [link1][link2]\n' +
                   '[link2]:');
     
-    input.push   ('This is a [link1][link2]\n' +
+    input.push   ('This is a defined [link1][link2]\n' +
                   '[link2] :');
-    expected.push('This is a [link1][link2]\n' +
+    expected.push('This is a defined [link1][link2]\n' +
                   '[link2] :');
     
-    input.push   ('This is a [link1][link2] and some more with a [link][link3]\n' +
+    input.push   ('This is a defined [link1][link2] and some more with a [link][link3]\n' +
                   '\n' +
                   '[link2]:');
-    expected.push('This is a [link1][link2] and some more with a [link][link3]\n' +
+    expected.push('This is a defined [link1][link2] and some more with a [link][link3]\n' +
                   '\n' +
                   '[link2]:\n' +
                   '\n' +
@@ -61,4 +67,6 @@ function testLinkCollection() {
         var output = defineLinks(input[i]);
         assert(expecting == output, '\n  Expected:\n' + expecting + '\n  Got:\n' + output);
     }
+    
+    print('testLinkCollection passed');
 }

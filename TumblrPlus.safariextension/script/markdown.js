@@ -1,15 +1,14 @@
 function defineLinks(post) {
     var usedLinkPattern = /\[[^\]]+\]\s*(\[[^\]]+\])/gm;
     var usedLinks = new Array();
-    var match;
     
-    while (match = usedLinkPattern.exec(post)) {
+    while ((match = usedLinkPattern.exec(post)) && usedLinks.indexOf(match[1]) == -1) {
         usedLinks.push(match[1]);
     }
     
     var undefinedLinks = new Array();
     
-    for (var i = 0; i < usedLinks.length; i++) {
+    for (i = 0; i < usedLinks.length; i++) {
         var usedLink = usedLinks[i];
         var regExLink = usedLink.replace('[', '\\[').replace(']', '\\]');
         
@@ -26,7 +25,7 @@ function defineLinks(post) {
         result += '\n\n';
     }
     
-    for (var i = 0; i < undefinedLinks.length; i++) {
+    for (i = 0; i < undefinedLinks.length; i++) {
         var link = undefinedLinks[i];
         result += '\n' + link + ':';
     }
