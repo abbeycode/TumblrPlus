@@ -120,6 +120,8 @@
 			<string>Some</string>
 		</dict>
 	</dict>
+	<key>Update Manifest URL</key>
+	<string>https://raw.github.com/abbeycode/TumblrPlus/master/tumblrplus-updates.plist</string>
 	<key>Website</key>
 	<string>http://www.abbey-code.com</string>
 </dict>
