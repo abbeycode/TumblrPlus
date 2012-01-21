@@ -35,7 +35,43 @@
 						<key>Title</key>
 						<string>Define Markdown Links</string>
 					</dict>
+					<dict>
+						<key>Separator</key>
+						<true/>
+					</dict>
+					<dict>
+						<key>Identifier</key>
+						<string>template-main-menu-item</string>
+						<key>Submenu</key>
+						<string>template-list-apply-menu</string>
+						<key>Title</key>
+						<string>Apply Template</string>
+					</dict>
+					<dict>
+						<key>Identifier</key>
+						<string>delete-template-main-menu-item</string>
+						<key>Submenu</key>
+						<string>template-list-delete-menu</string>
+						<key>Title</key>
+						<string>Delete Template</string>
+					</dict>
+					<dict>
+						<key>Identifier</key>
+						<string>save-template</string>
+						<key>Title</key>
+						<string>Save Template</string>
+					</dict>
 				</array>
+			</dict>
+			<dict>
+				<key>Identifier</key>
+				<string>template-list-apply-menu</string>
+				<key>Menu Items</key>
+				<array/>
+			</dict>
+			<dict>
+				<key>Identifier</key>
+				<string>template-list-delete-menu</string>
 			</dict>
 		</array>
 		<key>Toolbar Items</key>
@@ -62,7 +98,7 @@
 		<dict>
 			<key>End</key>
 			<array>
-				<string>script/markdown-injected.js</string>
+				<string>script/injected.js</string>
 			</array>
 		</dict>
 	</dict>

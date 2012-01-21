@@ -2,40 +2,81 @@
 <html>
     <head>
     <script type="text/javascript" src="script/markdown.js"></script>
+    <script type="text/javascript" src="script/templates.js"></script>
     </head>
-
+    <body>
     <script type="text/javascript">
-        safari.application.addEventListener("command",  commandHandler,  true);
-        safari.application.addEventListener("validate", validateHandler, true);
-        safari.application.addEventListener("message",  messageHandler,  true);
-
-        safari.application.addEventListener("activate", navigationHandler, true);
-        safari.application.addEventListener("navigate", navigationHandler, true);
-
         // I know, globals are bad. I couldn't figure out a different way to handle this
         // that actually worked, though
         var usesMarkdown = false;
-
+        
+        var lastTemplateNameApplied = null;
+        
         function commandHandler(event) {
+            var page = safari.application.activeBrowserWindow.activeTab.page;
+
             if (event.target.identifier == 'define-markdown-links') {
-                safari.application.activeBrowserWindow.activeTab.page.dispatchMessage('defineLinksGetPost', null);
+                page.dispatchMessage('defineLinksGetPost', null);
+            } else if (event.target.identifier == 'save-template') {
+                page.dispatchMessage('getTemplateInfo', null);
+            } else if (event.target.command == 'apply-template') {
+                var template = getTemplateList()[event.target.title];
+                lastTemplateNameApplied = template.name;
+                page.dispatchMessage('applyTemplate', template);
+            } else if (event.target.command == 'delete-template') {
+                var template = getTemplateList()[event.target.title];
+                deleteTemplate(template);
             }
         }
         
         function messageHandler(event) {
-            if (event.name == 'defineLinksForPost') {
-                var postWithDefinedLinks = defineLinks(event.message);
-                safari.application.activeBrowserWindow.activeTab.page.dispatchMessage('updatePostWithDefinedLinks', postWithDefinedLinks);
-            }
-            else if (event.name == 'pageUsesMarkdown') {
-                usesMarkdown = event.message;
+            switch (event.name) {
+                case 'defineLinksForPost':
+                    var postWithDefinedLinks = defineLinks(event.message);
+                    var page = safari.application.activeBrowserWindow.activeTab.page;
+                    page.dispatchMessage('updatePostWithDefinedLinks', postWithDefinedLinks);
+                    break;
+                
+                case 'pageUsesMarkdown':
+                    usesMarkdown = event.message;
+                    break;
+                
+                case 'saveTemplateInfo':
+                    saveTemplate(event.message, lastTemplateNameApplied);
+                    break;
             }
         }
         
         function navigationHandler(event) {
             var page = safari.application.activeBrowserWindow.activeTab.page;
             if (page) {
+                lastTemplateNameApplied = null;
                 page.dispatchMessage('checkIfPageUsesMarkdown', null);
+            }
+        }
+        
+        function menuHandler(event) {
+            if (event.target.identifier == 'template-list-apply-menu' ||
+                event.target.identifier == 'template-list-delete-menu') {
+                var templatesMenu = event.target;
+                
+                // Clear menu, get count up front, since length doesn't update in the loop
+                while (templatesMenu.menuItems.length > 0) {
+                    templatesMenu.removeMenuItem(0);
+                }
+                
+                var templateArray = sortedTemplateList();
+
+                var command = (event.target.identifier.indexOf('apply') != -1
+                    ? 'apply-template'
+                    : 'delete-template');
+                
+                for (i = 0; i < templateArray.length; i++) {
+                    var template = templateArray[i];
+                    var newItem = templatesMenu.appendMenuItem(template.uid,
+                                                               template.name,
+                                                               command);
+                }
             }
         }
         
@@ -49,9 +90,25 @@
                 return;
             }
 
-            if (event.target.identifier == 'define-markdown-links') {
-                event.target.disabled = !usesMarkdown;
+            switch (event.target.identifier) {
+                case 'define-markdown-links':
+                    event.target.disabled = !usesMarkdown;
+                    break;
+                case 'template-main-menu-item':
+                case 'delete-template-main-menu-item':
+                    var thereAreTemplates = sortedTemplateList().length > 0;
+                    event.target.disabled = !thereAreTemplates;
+                    break;
             }
         }
+        
+        safari.application.addEventListener("command",  commandHandler,  true);
+        safari.application.addEventListener("validate", validateHandler, true);
+        safari.application.addEventListener("menu",     menuHandler,     true);
+        safari.application.addEventListener("message",  messageHandler,  true);
+
+        safari.application.addEventListener("activate", navigationHandler, true);
+        safari.application.addEventListener("navigate", navigationHandler, true);
     </script>
+    </body>
 </html>
