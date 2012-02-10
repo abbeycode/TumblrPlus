@@ -1,5 +1,26 @@
+var ADD_TAG = 'add_tag';
+var SHOW_DESCRIPTION = 'show_description';
+var TAG_UPDATE = 'tag_update';
+
 if (window.top == window) {
     safari.self.addEventListener('message', messageHandler, true);
+    
+    // Inject the script used to call the page's javascript methods
+    var myScriptElement = document.createElement('script'); 
+    myScriptElement.innerHTML =
+      'window.addEventListener("message", function(e) {' +
+      '  if (e.data.msg == "' + ADD_TAG + '") {' +
+      '    insert_tag(e.data.tag_name);' +
+      '  } else if (e.data.msg == "' + SHOW_DESCRIPTION + '") {' +
+      '    var showDescriptionLink = document.getElementById("add_link_description");' +
+      '    if (showDescriptionLink != null) {' +
+      '      showDescriptionLink.getElementsByTagName("a")[0].onclick()' +
+      '    }' +
+      '  } else if (e.data.msg == "' + TAG_UPDATE + '") {' +
+      '    tag_editor_update_form()' +
+      '  };' +
+      '}, false);'
+    document.querySelector('head').appendChild(myScriptElement);
 }
 
 function messageHandler(event) {
@@ -76,16 +97,9 @@ function clearTags() {
 }
 
 function addTags(tagList) {
-    var existingTags = getTags();
-    var tagField = getTagField();
-    
     for (i = 0; i < tagList.length; i++) {
         var tag = tagList[i];
-        if (existingTags.indexOf(tag) == -1) {
-            tagField.focus();
-            tagField.value = tagList[i];
-            getPostTextArea().focus();
-        }
+        postMessage({msg: ADD_TAG, tag_name: tag}, '*');
     }
 }
 
@@ -102,23 +116,34 @@ function getTags() {
     return result;
 }
 
+function showDescription() {
+    postMessage({msg: SHOW_DESCRIPTION}, '*');
+}
+
+function updateAfterAddTags() {
+    postMessage({msg: TAG_UPDATE}, '*');
+    
+    var activeElement = document.activeElement;
+    getTagField().focus();
+    activeElement.focus();
+}
+
 function applyTemplate(template) {
     var titleField = getTitleInputField();
     
     if (titleField && template.title && template.title.trim() !== '') {
-        console.log( 'assigning title');
         titleField.value = template.title;
     }
     
     if (template.body && template.body.trim() !== '') {
-        console.log( 'assigning body');
+        showDescription();
         getPostTextArea().value = template.body;
     }
     
     if (template.tags && template.tags.length > 0) {
-        console.log( 'assigning tags');
         clearTags();
         addTags(template.tags);
+        updateAfterAddTags();
     }
 }
 
@@ -127,8 +152,6 @@ function getTemplateData() {
     var title = titleField ? titleField.value : '';
     var body = getPostTextArea().value;
     var tags = getTags();
-    
-    console.log('body: "' + body + '"');
     
     return {
         'title': title,
