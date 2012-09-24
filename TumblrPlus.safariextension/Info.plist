@@ -5,7 +5,7 @@
 	<key>Author</key>
 	<string>Abbey Code</string>
 	<key>Builder Version</key>
-	<string>7534.53.10</string>
+	<string>8536.26.14</string>
 	<key>CFBundleDisplayName</key>
 	<string>Tumblr+</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>3</string>
+	<string>4</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Database Quota</key>
@@ -123,6 +123,6 @@
 	<key>Update Manifest URL</key>
 	<string>https://raw.github.com/abbeycode/TumblrPlus/master/tumblrplus-updates.plist</string>
 	<key>Website</key>
-	<string>http://www.abbey-code.com</string>
+	<string>http://dovfrankel.com/tagged/safari%20extension</string>
 </dict>
 </plist>
