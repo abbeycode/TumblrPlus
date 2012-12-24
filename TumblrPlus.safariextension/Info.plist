@@ -5,7 +5,7 @@
 	<key>Author</key>
 	<string>Abbey Code</string>
 	<key>Builder Version</key>
-	<string>8536.26.14</string>
+	<string>8536.26.17</string>
 	<key>CFBundleDisplayName</key>
 	<string>Tumblr+</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>5</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Database Quota</key>
@@ -103,7 +103,7 @@
 		</dict>
 	</dict>
 	<key>Description</key>
-	<string>Allows you to create and use templates for Tumblr posts</string>
+	<string>Adds features like templates and enhanced Markdown support to Tumblr</string>
 	<key>ExtensionInfoDictionaryVersion</key>
 	<string>1.0</string>
 	<key>Permissions</key>
@@ -121,7 +121,7 @@
 		</dict>
 	</dict>
 	<key>Update Manifest URL</key>
-	<string>https://raw.github.com/abbeycode/TumblrPlus/master/tumblrplus-updates.plist</string>
+	<string>https://s3.amazonaws.com/TumblrPlus/tumblrplus-updates.plist</string>
 	<key>Website</key>
 	<string>http://dovfrankel.com/tagged/safari%20extension</string>
 </dict>

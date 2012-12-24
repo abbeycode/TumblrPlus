@@ -10,11 +10,11 @@
        <key>Developer Identifier</key>
        <string>Z6KH9ME62E</string>
        <key>CFBundleVersion</key>
-       <string>4</string>
+       <string>5</string>
        <key>CFBundleShortVersionString</key>
        <string>1.0</string>
        <key>URL</key>
-       <string>https://github.com/downloads/abbeycode/TumblrPlus/TumblrPlus.safariextz</string>
+       <string>https://s3.amazonaws.com/TumblrPlus/TumblrPlus.safariextz</string>
      </dict>
    </array>
 </dict>
