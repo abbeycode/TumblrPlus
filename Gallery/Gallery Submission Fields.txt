@@ -3,20 +3,19 @@ Company Website: http://dovfrankel.com/tagged/safari%20extension
 Support URL: http://dovfrankel.com/ask
 Extension Display Name: Tumblr+
 Extension Bundle Identifier: com.abbey-code.tumblrplus
-Download URL: https://github.com/downloads/abbeycode/TumblrPlus/TumblrPlus.safariextz
-Update Manifest URL: https://github.com/abbeycode/TumblrPlus/blob/master/tumblrplus-updates.plist
+Download URL: https://s3.amazonaws.com/TumblrPlus/TumblrPlus.safariextz
+Update Manifest URL: https://s3.amazonaws.com/TumblrPlus/tumblrplus-updates.plist
 Extension file size (KB): 24
 Short Description: Tumblr+ adds functions to Tumblr's post editor
-Long Description: Tumblr+ is a browser extension aimed at adding functionality it doesn't come with out
-of the box.
+Long Description: Tumblr+ adds features to Tumblr it doesn't come with out of the box.
 
 At present, this includes:
 * Gathering unspecified links in a Markdown Post
 * Saving and applying templates for posts
 
-Extension Version: 1.0.4
+Extension Version: 1.0.5
 What's New in this version: Bug fixes
-Category: Blogging
+Category: Blogging, Productivity
 Extension Type: Toolbar button
 License Type: Freeware
 Keywords: tumblr, blog, blogging, blogger, post, markdown, template, templates, text, text editor
