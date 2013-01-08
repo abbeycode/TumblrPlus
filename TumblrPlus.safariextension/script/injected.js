@@ -23,28 +23,48 @@ if (window.top == window) {
     document.querySelector('head').appendChild(myScriptElement);
 }
 
-function messageHandler(event) {
-    if (event.name == 'defineLinksGetPost') {
-         safari.self.tab.dispatchMessage("defineLinksForPost", getPostTextArea().value);
-    }
-    else if (event.name == 'updatePostWithDefinedLinks') {
+function updatePostWithNewText(updatedText) {
         var postTextArea = getPostTextArea();
         var selStart = postTextArea.selectionStart;
         var selEnd   = postTextArea.selectionEnd;
         
-        postTextArea.value = event.message;
+        postTextArea.value = updatedText;
         
         postTextArea.selectionStart = selStart;
         postTextArea.selectionEnd   = selEnd;
-    }
-    else if (event.name == 'checkIfPageUsesMarkdown') {
-        safari.self.tab.dispatchMessage("pageUsesMarkdown", pageUsesMarkdown());
-    }
-    else if (event.name == 'applyTemplate') {
-        applyTemplate(event.message);
-    }
-    else if (event.name == 'getTemplateInfo') {
-        safari.self.tab.dispatchMessage("saveTemplateInfo", getTemplateData());
+}
+
+function messageHandler(event) {
+    switch(event.name) {
+        case 'defineLinksGetPost':
+            safari.self.tab.dispatchMessage("defineLinksForPost", getPostTextArea().value);
+            break;
+
+        case 'markdownLinksToFootnote':
+            safari.self.tab.dispatchMessage("makeLinksFootnotesForPost", getPostTextArea().value);
+            break;
+
+        case 'markdownLinksToInline':
+            safari.self.tab.dispatchMessage("makeLinksInlineForPost", getPostTextArea().value);
+            break;
+
+        case 'updatePostWithDefinedLinks':
+        case 'updatePostWithFootnoteLinks':
+        case 'updatePostWithInlineLinks':
+            updatePostWithNewText(event.message);
+            break;
+
+        case 'checkIfPageUsesMarkdown':
+            safari.self.tab.dispatchMessage("pageUsesMarkdown", pageUsesMarkdown());
+            break;
+
+        case 'applyTemplate':
+            applyTemplate(event.message);
+            break;
+
+        case 'getTemplateInfo':
+            safari.self.tab.dispatchMessage("saveTemplateInfo", getTemplateData());
+            break;
     }
 }
 

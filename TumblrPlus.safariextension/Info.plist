@@ -31,9 +31,11 @@
 				<array>
 					<dict>
 						<key>Identifier</key>
-						<string>define-markdown-links</string>
+						<string>markdown-menu-item</string>
+						<key>Submenu</key>
+						<string>markdown-menu</string>
 						<key>Title</key>
-						<string>Define Markdown Links</string>
+						<string>Markdown</string>
 					</dict>
 					<dict>
 						<key>Separator</key>
@@ -72,6 +74,31 @@
 			<dict>
 				<key>Identifier</key>
 				<string>template-list-delete-menu</string>
+			</dict>
+			<dict>
+				<key>Identifier</key>
+				<string>markdown-menu</string>
+				<key>Menu Items</key>
+				<array>
+					<dict>
+						<key>Identifier</key>
+						<string>define-markdown-links</string>
+						<key>Title</key>
+						<string>Define Unresolved Footnote Links</string>
+					</dict>
+					<dict>
+						<key>Identifier</key>
+						<string>markdown-links-to-footnote</string>
+						<key>Title</key>
+						<string>Change links to footnote-style</string>
+					</dict>
+					<dict>
+						<key>Identifier</key>
+						<string>markdown-links-to-inline</string>
+						<key>Title</key>
+						<string>Change links to inline-style</string>
+					</dict>
+				</array>
 			</dict>
 		</array>
 		<key>Toolbar Items</key>

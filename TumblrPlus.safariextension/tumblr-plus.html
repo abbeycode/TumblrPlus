@@ -17,6 +17,10 @@
 
             if (event.target.identifier == 'define-markdown-links') {
                 page.dispatchMessage('defineLinksGetPost', null);
+            } else if (event.target.identifier == 'markdown-links-to-footnote') {
+                page.dispatchMessage('markdownLinksToFootnote', null);
+            } else if (event.target.identifier == 'markdown-links-to-inline') {
+                page.dispatchMessage('markdownLinksToInline', null);
             } else if (event.target.identifier == 'save-template') {
                 page.dispatchMessage('getTemplateInfo', null);
             } else if (event.target.command == 'apply-template') {
@@ -35,6 +39,20 @@
                     var postWithDefinedLinks = defineReferencedLinks(event.message);
                     var page = safari.application.activeBrowserWindow.activeTab.page;
                     page.dispatchMessage('updatePostWithDefinedLinks', postWithDefinedLinks);
+                    break;
+                
+                case 'makeLinksFootnotesForPost':
+                    var postWithFootnoteLinks = replaceInlineLinksWithFootnotes(event.message);
+                    var page = safari.application.activeBrowserWindow.activeTab.page;
+                    page.dispatchMessage('updatePostWithFootnoteLinks', postWithFootnoteLinks);
+                    break;
+                
+                case 'makeLinksInlineForPost':
+                    print ('original post:\n' + event.message);
+                    var postWithInlineLinks = replaceFootnoteLinksWithInline(event.message);
+                    print ('inlined post:\n' + postWithInlineLinks);
+                    var page = safari.application.activeBrowserWindow.activeTab.page;
+                    page.dispatchMessage('updatePostWithInlineLinks', postWithInlineLinks);
                     break;
                 
                 case 'pageUsesMarkdown':
