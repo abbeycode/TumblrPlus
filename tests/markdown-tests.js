@@ -88,6 +88,13 @@ function testReplaceInlineLinksWithFootnotes() {
                   '\n' +
                   '\n' +
                   '[inline-link]:http://example.com');
+
+    // Empty link
+    input.push   ('This is an [inline link]()\n\n\n');
+    expected.push('This is an [inline link][inline-link]' +
+                  '\n' +
+                  '\n' +
+                  '[inline-link]:');
     
     // Real example
     input.push   ('When I [first published](http://dovfrankel.com/post/16235468803/tumblr) [Tumblr+](http://dovfrankel.com/tagged/TumblrPlus), I decided to use GitHub\'s "Downloads" feature, used for distributing binaries of projects. You upload a file to them, and people can download it. I got it free with the free [GitHub account](https://github.com/abbeycode), and they provide unlimited downloads, and also a count of [how many downloads](http://dovfrankel.com/post/36233735511/2000-tumblr-downloads) each file gets (presently over 3600 - many thanks to those who have tried it out). Everything was running splendidly. And then, GitHub decided to [pull the plug](https://github.com/blog/1302-goodbye-uploads) on the Downloads feature.\n' +
@@ -143,6 +150,13 @@ function testReplaceFootnoteLinksWithInline() {
                   '[inline-link]:http://example.com');
     expected.push('This is an [inline link](http://example.com)');
     
+    // Empty link
+    input.push   ('This is an [inline link][inline-link]' +
+                  '\n' +
+                  '\n' +
+                  '[inline-link]:');
+    expected.push('This is an [inline link]()');
+
     // Real example
     input.push   ('When I [first published][first-published] [Tumblr+][tumblr], I decided to use GitHub\'s "Downloads" feature, used for distributing binaries of projects. You upload a file to them, and people can download it. I got it free with the free [GitHub account][github-account], and they provide unlimited downloads, and also a count of [how many downloads][how-many-downlo] each file gets (presently over 3600 - many thanks to those who have tried it out). Everything was running splendidly. And then, GitHub decided to [pull the plug][pull-the-plug] on the Downloads feature.\n' +
                   '\n' +
@@ -198,6 +212,10 @@ function testReplacementEndToEnd() {
     var inlineText = 'This is an [inline link](http://example.com)';
     var convertedInline = replaceFootnoteLinksWithInline(replaceInlineLinksWithFootnotes(inlineText));
     assert(inlineText == convertedInline, 'Inline-linked post changed after converting to footnote- and back');
+
+    var emptyLinkText = 'This is an [inline link]()';
+    var convertedEmpty = replaceFootnoteLinksWithInline(replaceInlineLinksWithFootnotes(emptyLinkText));
+    assert(emptyLinkText == convertedEmpty, 'Empty-linked post changed after converting to footnote- and back');
 
     print('testReplacementEndToEnd passed');
 }

@@ -64,7 +64,7 @@ function replaceFootnoteLinksWithInline(post) {
         
         // Remove the footnote link
         var regExLinkName = linkName.replace('[', '\\[').replace(']', '\\]');
-        var footnotePattern = new RegExp(regExLinkName + '\\s*:.+', 'g');
+        var footnotePattern = new RegExp(regExLinkName + '\\s*:.*', 'g');
         result = result.replace(footnotePattern, '');
         
         // Replace the footnote reference with an inline URL
@@ -100,7 +100,7 @@ function findUndefinedLinks(post) {
 
 function findInlineLinks(post) {
     // Define regexes used
-    var inlineLinkPattern = /\[([^\]]+)\]\s*\(([^)]+)\)/gm;
+    var inlineLinkPattern = /\[([^\]]+)\]\s*\(([^)]*)\)/gm;
     var inlineLinks = new Array();
     
     // Find all link names used in the post
