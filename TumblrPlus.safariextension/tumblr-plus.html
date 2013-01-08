@@ -32,7 +32,7 @@
         function messageHandler(event) {
             switch (event.name) {
                 case 'defineLinksForPost':
-                    var postWithDefinedLinks = defineLinks(event.message);
+                    var postWithDefinedLinks = defineReferencedLinks(event.message);
                     var page = safari.application.activeBrowserWindow.activeTab.page;
                     page.dispatchMessage('updatePostWithDefinedLinks', postWithDefinedLinks);
                     break;
