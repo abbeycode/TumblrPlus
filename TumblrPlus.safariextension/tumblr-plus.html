@@ -30,6 +30,14 @@
             } else if (event.target.command == 'delete-template') {
                 var template = getTemplateList()[event.target.title];
                 deleteTemplate(template);
+            } else if (event.target.identifier == 'help-about-menu-item') {
+                showAboutBox();
+            } else if (event.target.identifier == 'help-contact-menu-item') {
+                safari.application.activeBrowserWindow.openTab().url = 'http://dovfrankel.com/ask';
+            } else if (event.target.identifier == 'help-report-issue-menu-item') {
+                safari.application.activeBrowserWindow.openTab().url = 'https://github.com/abbeycode/TumblrPlus/issues';
+            } else if (event.target.identifier == 'help-donate-menu-item') {
+                safari.application.activeBrowserWindow.openTab().url = 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A444PWYN6NS6S';
             }
         }
         
@@ -99,25 +107,46 @@
         }
         
         function validateHandler(event) {
-            if (event.target.identifier == 'toolbar-button') {
-                event.target.disabled = !safari.application.activeBrowserWindow.activeTab.page;
+            // Enable all controls
+            event.target.disabled = false;
+            print(event.target.identifier + ' enabled');
+
+            // If not on Tumblr.com, the Help menu should be the only thing active
+            if (!safari.application.activeBrowserWindow.activeTab.page
+                && event.target.identifier.indexOf('help') == -1
+                && event.target.identifier != 'toolbar-button') {
+                
+                print(event.target.identifier + ' disabled');
+                event.target.disabled = true;
+                return;
             }
             
-            // Disable no matter what if the site isn't available (page is outside Tumblr)
+            // Disabled no matter what if the site isn't available (page is outside Tumblr)
             if (!safari.application.activeBrowserWindow.activeTab.page) {
                 return;
             }
 
+            if (event.target.identifier.indexOf('markdown') != -1 && !event.target.submenu)
+                event.target.disabled = !usesMarkdown;
+
             switch (event.target.identifier) {
-                case 'define-markdown-links':
-                    event.target.disabled = !usesMarkdown;
-                    break;
                 case 'template-main-menu-item':
                 case 'delete-template-main-menu-item':
                     var thereAreTemplates = sortedTemplateList().length > 0;
                     event.target.disabled = !thereAreTemplates;
                     break;
             }
+        }
+        
+        function showAboutBox() {
+            var about = 'by Dov Frankel';
+            
+            var versionNumber = safari.extension.displayVersion;
+            var bundleNumber = safari.extension.bundleVersion;
+            
+            about += '\n\n You\'re currently running version ' + versionNumber + '.' + bundleNumber;
+            
+            alert(about);
         }
         
         safari.application.addEventListener("command",  commandHandler,  true);

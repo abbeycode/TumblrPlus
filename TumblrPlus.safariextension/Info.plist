@@ -13,9 +13,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>0</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Database Quota</key>
@@ -63,6 +63,18 @@
 						<key>Title</key>
 						<string>Save Template</string>
 					</dict>
+					<dict>
+						<key>Separator</key>
+						<true/>
+					</dict>
+					<dict>
+						<key>Identifier</key>
+						<string>help-menu-item</string>
+						<key>Submenu</key>
+						<string>help-menu</string>
+						<key>Title</key>
+						<string>Help</string>
+					</dict>
 				</array>
 			</dict>
 			<dict>
@@ -97,6 +109,37 @@
 						<string>markdown-links-to-inline</string>
 						<key>Title</key>
 						<string>Change links to inline-style</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>Identifier</key>
+				<string>help-menu</string>
+				<key>Menu Items</key>
+				<array>
+					<dict>
+						<key>Identifier</key>
+						<string>help-about-menu-item</string>
+						<key>Title</key>
+						<string>About</string>
+					</dict>
+					<dict>
+						<key>Identifier</key>
+						<string>help-contact-menu-item</string>
+						<key>Title</key>
+						<string>Contact</string>
+					</dict>
+					<dict>
+						<key>Identifier</key>
+						<string>help-report-issue-menu-item</string>
+						<key>Title</key>
+						<string>Report an issue</string>
+					</dict>
+					<dict>
+						<key>Identifier</key>
+						<string>help-donate-menu-item</string>
+						<key>Title</key>
+						<string>Donate</string>
 					</dict>
 				</array>
 			</dict>
