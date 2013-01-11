@@ -15,7 +15,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.1</string>
 	<key>CFBundleVersion</key>
-	<string>7</string>
+	<string>8</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Database Quota</key>
@@ -96,13 +96,13 @@
 						<key>Identifier</key>
 						<string>define-markdown-links</string>
 						<key>Title</key>
-						<string>Define unresolved footnote links</string>
+						<string>Define unresolved reference-style links</string>
 					</dict>
 					<dict>
 						<key>Identifier</key>
 						<string>markdown-links-to-footnote</string>
 						<key>Title</key>
-						<string>Change links to footnote-style</string>
+						<string>Change links to reference-style</string>
 					</dict>
 					<dict>
 						<key>Identifier</key>
