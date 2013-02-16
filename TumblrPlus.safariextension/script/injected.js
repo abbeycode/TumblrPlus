@@ -1,6 +1,6 @@
 var ADD_TAG = 'add_tag';
-var SHOW_DESCRIPTION = 'show_description';
 var TAG_UPDATE = 'tag_update';
+var ENABLE_SUBMIT = 'enable_submit';
 
 if (window.top == window) {
     safari.self.addEventListener('message', messageHandler, true);
@@ -10,28 +10,26 @@ if (window.top == window) {
     myScriptElement.innerHTML =
       'window.addEventListener("message", function(e) {' +
       '  if (e.data.msg == "' + ADD_TAG + '") {' +
-      '    insert_tag(e.data.tag_name);' +
-      '  } else if (e.data.msg == "' + SHOW_DESCRIPTION + '") {' +
-      '    var showDescriptionLink = document.getElementById("add_link_description");' +
-      '    if (showDescriptionLink != null) {' +
-      '      showDescriptionLink.getElementsByTagName("a")[0].onclick()' +
-      '    }' +
+      '    Tumblr.PostForms.view.tag_editor.update(e.data.tag_name);' +
       '  } else if (e.data.msg == "' + TAG_UPDATE + '") {' +
-      '    tag_editor_update_form()' +
+      '    Tumblr.PostForms.view.tag_editor.update_form();' +
+      '  } else if (e.data.msg == "' + ENABLE_SUBMIT + '") {' +
+      '    Tumblr.PostForms.view.enable_submit();' +
       '  };' +
       '}, false);'
     document.querySelector('head').appendChild(myScriptElement);
 }
+        
 
 function updatePostWithNewText(updatedText) {
-        var postTextArea = getPostTextArea();
-        var selStart = postTextArea.selectionStart;
-        var selEnd   = postTextArea.selectionEnd;
-        
-        postTextArea.value = updatedText;
-        
-        postTextArea.selectionStart = selStart;
-        postTextArea.selectionEnd   = selEnd;
+    var postTextArea = getPostTextArea();
+    var selStart = postTextArea.selectionStart;
+    var selEnd   = postTextArea.selectionEnd;
+    
+    postTextArea.value = updatedText;
+    
+    postTextArea.selectionStart = selStart;
+    postTextArea.selectionEnd   = selEnd;
 }
 
 function messageHandler(event) {
@@ -81,7 +79,7 @@ function pageUsesMarkdown() {
 }
 
 function getTitleInputField() {
-    var postOne = document.forms['edit_post']['post_one'];
+    var postOne = document.forms['post_form']['post_one'];
     
     if (postOne && postOne.nodeName == 'INPUT') {
         return postOne;
@@ -105,14 +103,18 @@ function getPostTextArea() {
 }
 
 function getTagField() {
-    return document.forms['edit_post']['tag_editor_input'];
+    return document.getElementsByClassName('editor_wrapper')[0];
+}
+
+function getTagsDiv() {
+    return document.getElementsByClassName('tags')[0];
 }
 
 function clearTags() {
-    var tokensSpan = document.getElementById('tokens');
+    var tagsDiv = document.getElementsByClassName('tags')[0];
     
-    while (div = tokensSpan.getElementsByTagName('div')[0]) {
-        tokensSpan.removeChild(div);
+    while (span = tagsDiv.getElementsByTagName('span')[0]) {
+        tagsDiv.removeChild(span);
     }
 }
 
@@ -126,29 +128,26 @@ function addTags(tagList) {
 function getTags() {
     var result = new Array();
     
-    var tags = document.getElementById('tokens').getElementsByTagName('a');
+    var tags = getTagsDiv().getElementsByTagName('span');
     
     for (var i = 0; i < tags.length; i++) {
-        var span = tags[i].parentNode.getElementsByTagName('span')[0];
+        var span = tags[i];
         result.push(span.innerHTML);
     }
     
     return result;
 }
 
-function showDescription() {
-    postMessage({msg: SHOW_DESCRIPTION}, '*');
-}
-
 function updateAfterAddTags() {
     postMessage({msg: TAG_UPDATE}, '*');
-    
-    var activeElement = document.activeElement;
-    getTagField().focus();
-    activeElement.focus();
+}
+
+function enableSubmit() {
+    postMessage({msg: ENABLE_SUBMIT}, '*');
 }
 
 function applyTemplate(template) {
+    var activeElement = document.activeElement;
     var titleField = getTitleInputField();
     
     if (titleField && template.title && template.title.trim() !== '') {
@@ -156,7 +155,7 @@ function applyTemplate(template) {
     }
     
     if (template.body && template.body.trim() !== '') {
-        showDescription();
+        getPostTextArea().focus();
         getPostTextArea().value = template.body;
     }
     
@@ -165,6 +164,9 @@ function applyTemplate(template) {
         addTags(template.tags);
         updateAfterAddTags();
     }
+    
+    enableSubmit();
+    activeElement.focus();
 }
 
 function getTemplateData() {

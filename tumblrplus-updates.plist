@@ -10,9 +10,9 @@
        <key>Developer Identifier</key>
        <string>Z6KH9ME62E</string>
        <key>CFBundleVersion</key>
-       <string>8</string>
+       <string>9</string>
        <key>CFBundleShortVersionString</key>
-       <string>1.1</string>
+       <string>1.2</string>
        <key>URL</key>
        <string>https://s3.amazonaws.com/TumblrPlus/TumblrPlus.safariextz</string>
      </dict>

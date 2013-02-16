@@ -14,6 +14,11 @@
         
         function commandHandler(event) {
             var page = safari.application.activeBrowserWindow.activeTab.page;
+            
+            if (event.target.identifier.indexOf('markdown') != -1 && !usesMarkdown) {
+                alert('This page does not use markdown');
+                return;
+            }
 
             if (event.target.identifier == 'define-markdown-links') {
                 page.dispatchMessage('defineLinksGetPost', null);
@@ -77,8 +82,9 @@
             var page = safari.application.activeBrowserWindow.activeTab.page;
             if (page) {
                 lastTemplateNameApplied = null;
-                page.dispatchMessage('checkIfPageUsesMarkdown', null);
             }
+            
+            checkIfPageUsesMarkdown();
         }
         
         function menuHandler(event) {
@@ -107,6 +113,9 @@
         }
         
         function validateHandler(event) {
+            // Too late to affect validation, but it will be used when a menu item is clicked
+            checkIfPageUsesMarkdown();
+            
             // Enable all controls
             event.target.disabled = false;
             print(event.target.identifier + ' enabled');
@@ -126,15 +135,19 @@
                 return;
             }
 
-            if (event.target.identifier.indexOf('markdown') != -1 && !event.target.submenu)
-                event.target.disabled = !usesMarkdown;
-
             switch (event.target.identifier) {
                 case 'template-main-menu-item':
                 case 'delete-template-main-menu-item':
                     var thereAreTemplates = sortedTemplateList().length > 0;
                     event.target.disabled = !thereAreTemplates;
                     break;
+            }
+        }
+        
+        function checkIfPageUsesMarkdown() {
+            var page = safari.application.activeBrowserWindow.activeTab.page;
+            if (page) {
+                page.dispatchMessage('checkIfPageUsesMarkdown', null);
             }
         }
         
